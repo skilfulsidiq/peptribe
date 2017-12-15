@@ -5,6 +5,7 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,44 @@ class User extends Authenticatable
         $this->save();
 
         return $this->api_token;
+    }
+
+    public function userpoints(){
+        return $this->hasMany(Userpoint::class);
+    }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+       public function incrementpoint($userid, $number=1){
+
+        $db = DB::table('users')->where(['id'=>$userid])->first();
+        // dd($db);
+        if (empty($db->id)) {
+            $points = new User;
+            $points->id = $userid;
+            $points->points = 1;
+            $points->save();
+        }else{
+            $db = User::where(['id'=>$userid])->first();
+            $db->increment('points',$number);
+        }
+    return;
+    }
+
+     public function decrementpoint($userid, $number=1){
+
+        $db = DB::table('users')->where(['id'=>$userid])->first();
+        if (empty($db->id)) {
+            $points = new User;
+            $points->id = $userid;
+            $points->points = 1;
+            $points->save();
+        }else{
+            $db = User::where(['id'=>$userid])->first();
+            $db->decrement('points',$number);
+        }
+    return;
     }
 
 }

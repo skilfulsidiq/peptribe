@@ -19,7 +19,10 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 // 
+Route::get('userpoint', 'PostController@userpoint');
+Route::get('upvote/{postid}/{userid}', 'PostController@upvote');
 Route::get('post', 'PostController@index');
+Route::get('comment/{postid}', 'PostController@getcomment');
 // Route::get('post/{postid}', 'PostController@show');
 // Route::post('post', 'PostController@store');
 // // Route::post('comment/{postid}', 'PostController@comment');
@@ -32,7 +35,8 @@ Route::get('post', 'PostController@index');
 // // for testing count
 // Route::get('count/{postid}', 'PostController@count');
 
-Auth::routes();
+Route::post('login', 'API\AuthController@login');
+Route::post('register', 'API\AuthController@register');
 
 
 

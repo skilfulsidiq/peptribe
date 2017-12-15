@@ -31,6 +31,9 @@ class Post extends Model
         return $this->hasMany(LikePoint::class);
     }
 
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
 
 
    
